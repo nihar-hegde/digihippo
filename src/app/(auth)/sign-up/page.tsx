@@ -15,18 +15,17 @@ import { trpc } from '@/trpc/client'
 
 
 const Page = () => {
-
-
   const { register, handleSubmit, formState: { errors } } = useForm<TAuthCredentialsValidators>({
     resolver: zodResolver(AuthCredentialsValidators)
   })
 
-  const { data } = trpc.anyApiRoute.useQuery()
+  const { mutate, isLoading } = trpc.auth.createPayloadUser.useMutation({
 
+  })
 
 
   const onSubmit = ({ email, password }: TAuthCredentialsValidators) => {
-    console.log(email, password)
+    mutate({ email, password })
   }
 
   return (
