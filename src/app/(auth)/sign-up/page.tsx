@@ -1,10 +1,30 @@
+'use client'
 import { Icons } from '@/components/Icons'
-import { buttonVariants } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { cn } from '@/lib/utils'
 import { ArrowRight } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import { AuthCredentialsValidators, TAuthCredentialsValidators } from '@/lib/validators/account-credentials-validator'
+
+
 
 const Page = () => {
+
+
+  const { register, handleSubmit, formState: { errors } } = useForm<TAuthCredentialsValidators>({
+    resolver: zodResolver(AuthCredentialsValidators)
+  })
+
+  const onSubmit = ({ email, password }: TAuthCredentialsValidators) => {
+    console.log(email, password)
+  }
+
   return (
     <>
       <div className='container relative flex pt-20 flex-col items-center justify-center lg:px-0'>
@@ -15,6 +35,35 @@ const Page = () => {
             <Link href={'/sign-in'} className={buttonVariants({ variant: 'link', className: 'gap-1.5' })}>Already have an account? Sign-In
               <ArrowRight className='h-4 w-4' />
             </Link>
+          </div>
+          <div className='grid gap-6'>
+            {/*TODO: Form is here*/}
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className='grid gap-2'>
+                <div className='grid gap-1 py-2'>
+                  <Label className='mb-1' htmlFor='email'>Email</Label>
+                  <Input
+                    {...register("email")}
+                    className={cn({
+                      "focus-visible:ring-red-500": errors.email
+                    })}
+                    placeholder='you@example.com'
+                  />
+                </div>
+                <div className='grid gap-1 py-2'>
+                  <Label className='mb-1' htmlFor='password'>Password</Label>
+                  <Input
+                    {...register("password")}
+                    className={cn({
+                      "focus-visible:ring-red-500": errors.password
+                    })}
+                    placeholder='Enter your password'
+                    type='password'
+                  />
+                </div>
+                <Button >Sign Up</Button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
