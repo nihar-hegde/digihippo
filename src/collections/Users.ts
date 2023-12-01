@@ -7,9 +7,9 @@ export const Users: CollectionConfig = {
       generateEmailHTML: ({ token }) => {
         return `<a href='${process.env.NEXT_PUBLIC_SERVER_URL}/verify-email?token=${token}'>
 Verify Your Email
-</a>`
-      }
-    }
+</a>`;
+      },
+    },
   },
   access: {
     read: () => true,
@@ -17,14 +17,14 @@ Verify Your Email
   },
   fields: [
     {
-      name: 'role',
-      defaultValue: 'user',
+      name: "role",
+      defaultValue: "user",
       required: true,
       type: "select",
       options: [
         { label: "Admin", value: "admin" },
-        { label: "User", value: 'user' }
-      ]
-    }
-  ]
-}
+        { label: "User", value: "user" },
+      ],
+    },
+  ],
+};
