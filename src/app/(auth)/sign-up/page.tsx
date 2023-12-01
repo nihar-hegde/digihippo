@@ -13,9 +13,11 @@ import { AuthCredentialsValidators, TAuthCredentialsValidators } from '@/lib/val
 import { trpc } from '@/trpc/client'
 import { toast } from 'sonner'
 import { ZodError } from 'zod'
+import { useRouter } from 'next/navigation'
 
 
 const Page = () => {
+  const router = useRouter()
   const { register, handleSubmit, formState: { errors } } = useForm<TAuthCredentialsValidators>({
     resolver: zodResolver(AuthCredentialsValidators)
   })
@@ -33,6 +35,10 @@ const Page = () => {
       }
       toast.error('Something went wrong please try again')
     },
+    onSuccess: ({ sentToEmail }) => {
+      toast.success(`Verification email sent to ${sentToEmail}.`)
+      router.push('/verify-email?to=' + sentToEmail)
+    }
 
 
   })
