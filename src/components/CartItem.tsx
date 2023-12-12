@@ -12,7 +12,7 @@ const CartItem = ({ product }: { product: Product }) => {
   const { removeItem } = useCart();
   const label = PRODUCT_CATEGORIES.find(
     ({ value }) => value === product.category
-  )?.label
+  )?.label;
 
   return (
     <div className="space-y-3 py-2">
@@ -35,13 +35,20 @@ const CartItem = ({ product }: { product: Product }) => {
               </div>
             )}
           </div>
-          <div className="flex flex-col self-start" >
-            <span className="line-clamp-1 text-sm font-medium mb-1">{product.name}</span>
-            <span className="line-clamp-1 text-sm capitalize text-muted-foreground">{label}</span>
+          <div className="flex flex-col self-start">
+            <span className="line-clamp-1 text-sm font-medium mb-1">
+              {product.name}
+            </span>
+            <span className="line-clamp-1 text-sm capitalize text-muted-foreground">
+              {label}
+            </span>
             <div className="mt-4 text-xs text-muted-foreground ">
-              <button onClick={() => removeItem(product.id)}
+              <button
+                onClick={() => removeItem(product.id)}
                 className="flex items-center gap-0.5"
-              ><X className="w-3 h-4" /> Remove</button>
+              >
+                <X className="w-3 h-4" /> Remove
+              </button>
             </div>
           </div>
         </div>

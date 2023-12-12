@@ -1,28 +1,26 @@
 import { Access, CollectionConfig } from "payload/types";
 
-
 const yourOwn: Access = ({ req: { user } }) => {
-  if (user.role === 'admin') return true
+  if (user.role === "admin") return true;
 
   return {
     user: {
-      equals: user?.id
-    }
-  }
-}
-
+      equals: user?.id,
+    },
+  };
+};
 
 export const Orders: CollectionConfig = {
-  slug: 'orders',
+  slug: "orders",
   admin: {
     useAsTitle: "Your orders",
     description: "A summery of all your orders on DigitalHippo",
   },
   access: {
     read: yourOwn,
-    update: ({ req }) => req.user.role === 'admin',
-    create: ({ req }) => req.user.role === 'admin',
-    delete: ({ req }) => req.user.role === 'admin',
+    update: ({ req }) => req.user.role === "admin",
+    create: ({ req }) => req.user.role === "admin",
+    delete: ({ req }) => req.user.role === "admin",
   },
   fields: [
     {
@@ -40,7 +38,7 @@ export const Orders: CollectionConfig = {
     },
     {
       name: "user",
-      type: 'relationship',
+      type: "relationship",
       admin: {
         hidden: true,
       },
@@ -48,11 +46,11 @@ export const Orders: CollectionConfig = {
       required: true,
     },
     {
-      name: 'products',
+      name: "products",
       type: "relationship",
-      relationTo: 'products',
+      relationTo: "products",
       required: true,
       hasMany: true,
     },
-  ]
-}
+  ],
+};

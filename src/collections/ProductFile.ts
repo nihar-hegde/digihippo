@@ -26,7 +26,7 @@ const yourOwnAndPurchased: Access = async ({ req }) => {
       },
     },
   });
-  const ownProductFileIds = products.map((prod) => prod.product_files).flat()
+  const ownProductFileIds = products.map((prod) => prod.product_files).flat();
   const { docs: orders } = await req.payload.find({
     collection: "orders",
     depth: 2,
@@ -36,19 +36,23 @@ const yourOwnAndPurchased: Access = async ({ req }) => {
       },
     },
   });
-  const purchasedProductFilesIds = orders.map((order) => {
-    return order.products.map((product) => {
-      if (typeof product === 'string') return req.payload.logger.error("search depth not sufficient")
-      return typeof product.product_files === 'string' ? product.product_files : product.product_files.id
+  const purchasedProductFilesIds = orders
+    .map((order) => {
+      return order.products.map((product) => {
+        if (typeof product === "string")
+          return req.payload.logger.error("search depth not sufficient");
+        return typeof product.product_files === "string"
+          ? product.product_files
+          : product.product_files.id;
+      });
     })
-  }).filter(Boolean).flat()
+    .filter(Boolean)
+    .flat();
   return {
     id: {
-      in: [...ownProductFileIds, ...purchasedProductFilesIds]
-    }
-  }
-
-
+      in: [...ownProductFileIds, ...purchasedProductFilesIds],
+    },
+  };
 };
 
 export const ProductFiles: CollectionConfig = {
@@ -61,8 +65,8 @@ export const ProductFiles: CollectionConfig = {
   },
   access: {
     read: yourOwnAndPurchased,
-    update: ({ req }) => req.user.role === 'admin',
-    delete: ({ req }) => req.user.role === 'admin',
+    update: ({ req }) => req.user.role === "admin",
+    delete: ({ req }) => req.user.role === "admin",
   },
   upload: {
     staticURL: "/product_files",

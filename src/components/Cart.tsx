@@ -26,9 +26,8 @@ const Cart = () => {
   const [isMounted, setIsMounted] = useState<boolean>(false);
 
   useEffect(() => {
-    setIsMounted(true)
-  }, [])
-
+    setIsMounted(true);
+  }, []);
 
   const cartTotal = items.reduce(
     (total, { product }) => total + product.price,
